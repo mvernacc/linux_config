@@ -1,3 +1,6 @@
+--=================================================================================
+--=========================== Load libraries ======================================
+--=================================================================================
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -14,7 +17,9 @@ local menubar = require("menubar")
 -- Load Debian menu entries
 require("debian.menu")
 
--- {{{ Error handling
+--=================================================================================
+--=========================== Error Handling ======================================
+--=================================================================================
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
@@ -37,9 +42,10 @@ do
         in_error = false
     end)
 end
--- }}}
 
--- {{{ Variable definitions
+--=================================================================================
+--========================= Variable Definitions ==================================
+--=================================================================================
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
@@ -71,26 +77,30 @@ local layouts =
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
--- }}}
 
--- {{{ Wallpaper
+--=============================================================================
+--=========================== Wallpaper =======================================
+--=============================================================================
 if beautiful.wallpaper then
     for s = 1, screen.count() do
         gears.wallpaper.maximized(beautiful.wallpaper, s, true)
     end
 end
--- }}}
 
--- {{{ Tags
+--=================================================================================
+--=================================== Tags ========================================
+--=================================================================================
 -- Define a tag table which hold all screen tags.
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
     tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
 end
--- }}}
 
--- {{{ Menu
+
+--=================================================================================
+--=================================== Menu ========================================
+--=================================================================================
 -- Create a laucher widget and a main menu
 myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
@@ -110,7 +120,6 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
 
 -- {{{ Wibox
 -- Create a textclock widget
@@ -208,15 +217,19 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- {{{ Mouse bindings
+
+--=================================================================================
+--==================================== Mouse ======================================
+--=================================================================================
 root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
--- }}}
 
--- {{{ Key bindings
+--=================================================================================
+--================================= Keyboard ======================================
+--=================================================================================
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
@@ -350,9 +363,10 @@ clientbuttons = awful.util.table.join(
 
 -- Set keys
 root.keys(globalkeys)
--- }}}
 
--- {{{ Rules
+--==============================================================================
+--============================== Rules =========================================
+--==============================================================================
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
     -- All clients will match this rule.
@@ -373,9 +387,10 @@ awful.rules.rules = {
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
 }
--- }}}
 
--- {{{ Signals
+--=================================================================================
+--================================== Signals ======================================
+--=================================================================================
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c, startup)
     -- Enable sloppy focus
@@ -446,4 +461,3 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
--- }}}
