@@ -13,6 +13,8 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+-- Widget library
+local vicious = require("vicious")
 
 -- Load Debian menu entries
 require("debian.menu")
@@ -121,11 +123,86 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
--- {{{ Wibox
--- Create a textclock widget
-mytextclock = awful.widget.textclock()
 
--- Create a wibox for each screen and add it
+--=================================================================================
+--==================================== Panel ======================================
+--=================================================================================
+
+-------------------
+-- volume widget --
+-------------------
+
+volumewidget = awful.widget.progressbar()
+volumewidget:set_width(8)
+volumewidget:set_vertical(true)
+volumewidget:set_background_color("#000000")
+volumewidget:set_border_color(nil)
+volumewidget:set_color("#999999")
+vicious.register(volumewidget, vicious.widgets.volume, "$1", 1, "Master")
+-------------------
+-- battery usage --
+-------------------
+
+-- only have to set this up when we have a battery
+havebattery = true
+if havebattery then
+   -- init
+   chargebar = awful.widget.progressbar()
+   -- config
+   chargebar:set_width(50)
+   -- chargebar:set_height(10)
+   chargebar:set_background_color("#000000")
+   chargebar:set_border_color(nil)
+   chargebar:set_color("#eeee00")
+   -- register
+   vicious.register(chargebar, vicious.widgets.bat, "$2", 1, "BAT0")
+
+   -- init
+   chargetext = widget({type = "textbox"})
+   vicious.register(chargetext, vicious.widgets.bat, "$3 $1", 1, "BAT0")
+end
+
+------------------
+-- memory usage --
+------------------
+
+-- init
+memwidget = awful.widget.graph()
+-- config
+memwidget:set_width(60)
+memwidget:set_background_color("#000000")
+memwidget:set_color("#00ee00")
+-- register
+vicious.register(memwidget, vicious.widgets.mem, "$1", 1)
+
+
+-----------
+-- clock --
+-----------
+mytextclock = awful.widget.textclock({ align = "right" })
+
+-----------------
+-- system tray --
+-----------------
+mysystray = widget({ type = "systray" })
+
+----------------
+-- separators --
+----------------
+separators = {}
+for c = 1, 10 do
+   separators[c] = widget({type = "textbox" })
+   separators[c].text = " | "
+end
+spacers = {}
+for c = 1, 10 do
+   spacers[c] = widget({type = "textbox" })
+   spacers[c].text = " "
+end
+
+-----------------------------
+-- create wibox and set up --
+-----------------------------
 mywibox = {}
 mypromptbox = {}
 mylayoutbox = {}
@@ -215,7 +292,6 @@ for s = 1, screen.count() do
 
     mywibox[s]:set_widget(layout)
 end
--- }}}
 
 
 --=================================================================================
