@@ -158,7 +158,7 @@ if havebattery then
    vicious.register(chargebar, vicious.widgets.bat, "$2", 1, "BAT0")
 
    -- init
-   chargetext = widget({type = "textbox"})
+   chargetext = wibox.widget.textbox()
    vicious.register(chargetext, vicious.widgets.bat, "$3 $1", 1, "BAT0")
 end
 
@@ -176,27 +176,22 @@ memwidget:set_color("#00ee00")
 vicious.register(memwidget, vicious.widgets.mem, "$1", 1)
 
 
------------
--- clock --
------------
-mytextclock = awful.widget.textclock({ align = "right" })
-
 -----------------
 -- system tray --
 -----------------
-mysystray = widget({ type = "systray" })
+mysystray = wibox.widget.systray() 
 
 ----------------
 -- separators --
 ----------------
 separators = {}
 for c = 1, 10 do
-   separators[c] = widget({type = "textbox" })
+   separators[c] = wibox.widget.textbox()
    separators[c].text = " | "
 end
 spacers = {}
 for c = 1, 10 do
-   spacers[c] = widget({type = "textbox" })
+   spacers[c] = wibox.widget.textbox()
    spacers[c].text = " "
 end
 
@@ -253,6 +248,29 @@ mytasklist.buttons = awful.util.table.join(
                                           end))
 
 for s = 1, screen.count() do
+    cpubox = { }
+    if s == 1 then
+       --for i = 0, ncpus-1 do
+       --   table.insert(cpubox, cpuwidgets[ncpus-i].widget)
+       --   table.insert(cpubox, cpuspacers[ncpus-i])
+       --end
+       table.insert(cpubox, memwidget.widget)
+       table.insert(cpubox, separators[2])
+    end
+    --cpubox.layout = awful.widget.layout.horizontal.rightleft
+
+    -- only need to set this up if we have a battery
+    batterybox = { }
+    if s == 1 and havebattery then
+      batterybox = {
+         chargebar.widget,
+         spacers[3],
+         chargetext,
+         separators[1],
+       }
+    end
+    --batterybox.layout = awful.widget.layout.horizontal.rightleft
+
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
@@ -281,7 +299,7 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
-    right_layout:add(mytextclock)
+    --right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
