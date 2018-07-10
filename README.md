@@ -5,6 +5,8 @@
 
 ## Basic installs
 ```bash
+sudo apt-get update
+sudo apt-get -y upgrade
 sudo apt-get install git vim
 ```
 
@@ -44,3 +46,10 @@ do
 done
 ```
 
+
+## Window tiling shortcuts
+http://devmartin.com/blog/2016/11/ubuntu-16.04-remap-shortcut-for-windows-aero-snap-like-window-movement-window-tiling/
+
+
+## Python 3
+https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-ubuntu-16-04
