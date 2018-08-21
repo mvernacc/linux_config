@@ -7,7 +7,7 @@
 ```bash
 sudo apt-get update
 sudo apt-get -y upgrade
-sudo apt-get install git vim
+sudo apt-get install git vim gcc make curl
 ```
 
 Sublime:
@@ -48,8 +48,21 @@ done
 
 
 ## Window tiling shortcuts
+On by default in ubuntu 18.04.
 http://devmartin.com/blog/2016/11/ubuntu-16.04-remap-shortcut-for-windows-aero-snap-like-window-movement-window-tiling/
 
 
 ## Python 3
-https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-ubuntu-16-04
+Use `pyenv` to install python 3 and 2.7
+https://github.com/pyenv/pyenv
+pyenv installer: https://github.com/pyenv/pyenv-installer
+Install requirements: https://github.com/pyenv/pyenv/wiki/common-build-problems
+
+
+## F.lux
+Nightlight feature in ubuntu 18.04 covers this need.
+https://github.com/xflux-gui/fluxgui
+
+
+## Signal messenger
+https://signal.org/download/
